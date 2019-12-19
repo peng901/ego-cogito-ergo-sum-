@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ps.educational.data.dao.SelectedcourseMapper">
+  <resultMap id="BaseResultMap" type="com.ps.educational.data.bean.Selectedcourse">
+    <result column="COURSEID" jdbcType="DECIMAL" property="courseid" />
+    <result column="STUDENTID" jdbcType="DECIMAL" property="studentid" />
+    <result column="MARK" jdbcType="DECIMAL" property="mark" />
+  </resultMap>
+  <insert id="insert" parameterType="com.ps.educational.data.bean.Selectedcourse">
+    insert into SELECTEDCOURSE (COURSEID, STUDENTID, MARK
+      )
+    values (#{courseid,jdbcType=DECIMAL}, #{studentid,jdbcType=DECIMAL}, #{mark,jdbcType=DECIMAL}
+      )
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select COURSEID, STUDENTID, MARK
+    from SELECTEDCOURSE
+  </select>
+</mapper>

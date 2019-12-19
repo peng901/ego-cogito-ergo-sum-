@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ps.educational.data.dao.CollegeMapper">
+  <resultMap id="BaseResultMap" type="com.ps.educational.data.bean.College">
+    <id column="COLLEGEID" jdbcType="DECIMAL" property="collegeid" />
+    <result column="COLLEGENAME" jdbcType="VARCHAR" property="collegename" />
+<!--    <collection property="students" column="COLLEGEID" ofType="com.ps.educational.data.bean.Student"-->
+<!--                select="com.ps.educational.data.dao.StudentMapper.selectByCid" >-->
+<!--    </collection>-->
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from COLLEGE
+    where COLLEGEID = #{collegeid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ps.educational.data.bean.College">
+    insert into COLLEGE (COLLEGEID, COLLEGENAME)
+    values (#{collegeid,jdbcType=DECIMAL}, #{collegename,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.ps.educational.data.bean.College">
+    update COLLEGE
+    set COLLEGENAME = #{collegename,jdbcType=VARCHAR}
+    where COLLEGEID = #{collegeid,jdbcType=DECIMAL}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select COLLEGEID, COLLEGENAME
+    from COLLEGE
+    where COLLEGEID = #{collegeid,jdbcType=DECIMAL}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select COLLEGEID, COLLEGENAME
+    from COLLEGE
+  </select>
+</mapper>

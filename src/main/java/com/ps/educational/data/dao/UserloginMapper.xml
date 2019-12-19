@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ps.educational.data.dao.UserloginMapper">
+  <resultMap id="BaseResultMap" type="com.ps.educational.data.bean.Userlogin">
+    <id column="USERID" jdbcType="DECIMAL" property="userid" />
+    <result column="USERNAME" jdbcType="VARCHAR" property="username" />
+    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+    <collection property="roles" column="USERID"  ofType="com.ps.educational.data.bean.Role"
+                select="com.ps.educational.data.dao.RoleMapper.selectByUid">
+    </collection>
+  </resultMap>
+    <select id="login" parameterType="com.ps.educational.data.bean.Userlogin" resultMap="BaseResultMap">
+      select USERID, USERNAME, PASSWORD
+      from USERLOGIN
+      where USERNAME=#{username} and PASSWORD=#{password}
+    </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from USERLOGIN
+    where USERID = #{userid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ps.educational.data.bean.Userlogin">
+    insert into USERLOGIN (USERID, USERNAME, PASSWORD, 
+      ROLE)
+    values (#{userid,jdbcType=DECIMAL}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.ps.educational.data.bean.Userlogin">
+    update USERLOGIN
+    set USERNAME = #{username,jdbcType=VARCHAR},
+      PASSWORD = #{password,jdbcType=VARCHAR}
+    where USERID = #{userid,jdbcType=DECIMAL}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select USERID, USERNAME, PASSWORD
+    from USERLOGIN
+    where USERID = #{userid,jdbcType=DECIMAL}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select USERID, USERNAME, PASSWORD
+    from USERLOGIN
+  </select>
+</mapper>

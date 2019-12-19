@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ps.educational.data.dao.TeacherMapper">
+  <resultMap id="BaseResultMap" type="com.ps.educational.data.bean.Teacher">
+    <id column="USERID" jdbcType="DECIMAL" property="userid" />
+    <result column="USERNAME" jdbcType="VARCHAR" property="username" />
+    <result column="SEX" jdbcType="VARCHAR" property="sex" />
+    <result column="BIRTHYEAR" jdbcType="TIMESTAMP" property="birthyear" />
+    <result column="DEGREE" jdbcType="VARCHAR" property="degree" />
+    <result column="TITLE" jdbcType="VARCHAR" property="title" />
+    <result column="GRADE" jdbcType="TIMESTAMP" property="grade" />
+    <result column="COLLEGEID" jdbcType="DECIMAL" property="collegeid" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from TEACHER
+    where USERID = #{userid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ps.educational.data.bean.Teacher">
+    insert into TEACHER (USERID, USERNAME, SEX, 
+      BIRTHYEAR, DEGREE, TITLE, 
+      GRADE, COLLEGEID)
+    values (#{userid,jdbcType=DECIMAL}, #{username,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{birthyear,jdbcType=TIMESTAMP}, #{degree,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{grade,jdbcType=TIMESTAMP}, #{collegeid,jdbcType=DECIMAL})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.ps.educational.data.bean.Teacher">
+    update TEACHER
+    set USERNAME = #{username,jdbcType=VARCHAR},
+      SEX = #{sex,jdbcType=VARCHAR},
+      BIRTHYEAR = #{birthyear,jdbcType=TIMESTAMP},
+      DEGREE = #{degree,jdbcType=VARCHAR},
+      TITLE = #{title,jdbcType=VARCHAR},
+      GRADE = #{grade,jdbcType=TIMESTAMP},
+      COLLEGEID = #{collegeid,jdbcType=DECIMAL}
+    where USERID = #{userid,jdbcType=DECIMAL}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select USERID, USERNAME, SEX, BIRTHYEAR, DEGREE, TITLE, GRADE, COLLEGEID
+    from TEACHER
+    where USERID = #{userid,jdbcType=DECIMAL}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select USERID, USERNAME, SEX, BIRTHYEAR, DEGREE, TITLE, GRADE, COLLEGEID
+    from TEACHER
+  </select>
+</mapper>

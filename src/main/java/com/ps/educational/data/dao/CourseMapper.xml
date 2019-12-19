@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ps.educational.data.dao.CourseMapper">
+  <resultMap id="BaseResultMap" type="com.ps.educational.data.bean.Course">
+    <id column="COURSEID" jdbcType="DECIMAL" property="courseid" />
+    <result column="COURSENAME" jdbcType="VARCHAR" property="coursename" />
+    <result column="TEACHERID" jdbcType="DECIMAL" property="teacherid" />
+    <result column="COURSETIME" jdbcType="VARCHAR" property="coursetime" />
+    <result column="CLASSROOM" jdbcType="VARCHAR" property="classroom" />
+    <result column="COURSEWEEK" jdbcType="DECIMAL" property="courseweek" />
+    <result column="COURSETYPE" jdbcType="VARCHAR" property="coursetype" />
+    <result column="COLLEGEID" jdbcType="DECIMAL" property="collegeid" />
+    <result column="SCORE" jdbcType="DECIMAL" property="score" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from COURSE
+    where COURSEID = #{courseid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.ps.educational.data.bean.Course">
+    insert into COURSE (COURSEID, COURSENAME, TEACHERID, 
+      COURSETIME, CLASSROOM, COURSEWEEK, 
+      COURSETYPE, COLLEGEID, SCORE
+      )
+    values (#{courseid,jdbcType=DECIMAL}, #{coursename,jdbcType=VARCHAR}, #{teacherid,jdbcType=DECIMAL}, 
+      #{coursetime,jdbcType=VARCHAR}, #{classroom,jdbcType=VARCHAR}, #{courseweek,jdbcType=DECIMAL}, 
+      #{coursetype,jdbcType=VARCHAR}, #{collegeid,jdbcType=DECIMAL}, #{score,jdbcType=DECIMAL}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.ps.educational.data.bean.Course">
+    update COURSE
+    set COURSENAME = #{coursename,jdbcType=VARCHAR},
+      TEACHERID = #{teacherid,jdbcType=DECIMAL},
+      COURSETIME = #{coursetime,jdbcType=VARCHAR},
+      CLASSROOM = #{classroom,jdbcType=VARCHAR},
+      COURSEWEEK = #{courseweek,jdbcType=DECIMAL},
+      COURSETYPE = #{coursetype,jdbcType=VARCHAR},
+      COLLEGEID = #{collegeid,jdbcType=DECIMAL},
+      SCORE = #{score,jdbcType=DECIMAL}
+    where COURSEID = #{courseid,jdbcType=DECIMAL}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select COURSEID, COURSENAME, TEACHERID, COURSETIME, CLASSROOM, COURSEWEEK, COURSETYPE, 
+    COLLEGEID, SCORE
+    from COURSE
+    where COURSEID = #{courseid,jdbcType=DECIMAL}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select COURSEID, COURSENAME, TEACHERID, COURSETIME, CLASSROOM, COURSEWEEK, COURSETYPE, 
+    COLLEGEID, SCORE
+    from COURSE
+  </select>
+
+  <!--总记录数：-->
+  <select id="getTotalCount"  resultType="int">
+    select count(*) from course
+  </select>
+
+  <!--分页：-->
+  <!--MyBatis实现动态排序时，必须使用${}不能使用#引入参数！！！-->
+  <select id="selectByPage" parameterType="java.util.Map"  resultMap="BaseResultMap">
+    select * from (select row_number() over(order by courseID) no, c.* from course c
+    ) temp
+    <if test='endIndex != null and endIndex!=""'>
+      <![CDATA[where no <=#{endIndex}]]>
+    </if>
+
+    <if test='startIndex != null and startIndex!=""'>
+      and no>=#{startIndex}
+    </if>
+  </select>
+</mapper>
